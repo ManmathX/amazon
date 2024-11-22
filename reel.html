@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reels Page</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+
+    .reels-container {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      scroll-snap-type: y mandatory; 
+      overflow-y: scroll;
+    }
+
+    .reel {
+      position: relative;
+      height: 100vh;
+      scroll-snap-align: start;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .reel video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .arrow {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 3rem;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    .arrow.show {
+      opacity: 1;
+    }
+
+    .swipe-button {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2rem;
+      background-color: rgba(255, 255, 255, 0.8);
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    #swipeLeft {
+      left: 10px;
+    }
+
+    #swipeRight {
+      right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="reels-container">
+    <div class="reel" id="reel1" width="100%" height="100%">
+      <video src="4167410-hd_720_900_30fps copy.mp4" autoplay muted loop width="100%" height="100%"></video>
+    </div>
+    <div class="reel" id="reel2">
+      <video src="3735230-hd_1920_1080_25fps copy.mp4" autoplay muted loop></video>
+    </div>
+    <div class="reel" id="reel3">
+      <video src="7856112-uhd_3840_2160_25fps copy.mp4" autoplay muted loop></video>
+    </div>
+  </div>
+  <div class="arrow" id="arrowLeft">⬅️</div>
+  <div class="arrow" id="arrowRight">➡️</div>
+  
+  <button class="swipe-button" id="swipeLeft">Swipe Left</button>
+  <button class="swipe-button" id="swipeRight">Swipe Right</button>
+
+  <script>
+    const reels = document.querySelectorAll('.reel');
+    const arrowLeft = document.getElementById('arrowLeft');
+    const arrowRight = document.getElementById('arrowRight');
+
+    let touchstartX = 0;
+    let touchendX = 0;
+
+    reels.forEach((reel, index) => {
+      const video = reel.querySelector('video');
+
+      reel.addEventListener('mouseenter', () => {
+        video.play();
+      });
+
+      reel.addEventListener('mouseleave', () => {
+        video.pause();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowDown' && index < reels.length - 1) {
+          reels[index + 1].scrollIntoView({ behavior: 'smooth' });
+        } else if (e.key === 'ArrowUp' && index > 0) {
+          reels[index - 1].scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+
+    // Swipe detection
+    const handleSwipe = () => {
+      if (touchendX < touchstartX) {
+        // Left swipe
+        arrowLeft.classList.add('show');
+        setTimeout(() => {
+          window.location.href = 'slide.left.html';
+        }, 500); // Wait for the animation to finish
+      }
+
+      if (touchendX > touchstartX) {
+        // Right swipe
+        arrowRight.classList.add('show');
+        setTimeout(() => {
+          window.location.href = 'ok.html';
+        }, 500); // Wait for the animation to finish
+      }
+
+      // Hide arrows after swipe
+      setTimeout(() => {
+        arrowLeft.classList.remove('show');
+        arrowRight.classList.remove('show');
+
+      }, 1000);
+    };
+
+    document.addEventListener('touchstart', (event) => {
+      touchstartX = event.changedTouches[0].screenX;
+    });
+
+    document.addEventListener('touchend', (event) => {
+      touchendX = event.changedTouches[0].screenX;
+      handleSwipe();
+    });
+
+    const swipeLeftButton = document.getElementById('swipeLeft');
+    const swipeRightButton = document.getElementById('swipeRight');
+
+    swipeLeftButton.addEventListener('click', () => {
+      arrowLeft.classList.add('show');
+      setTimeout(() => {
+        window.location.href = 'side.left.html';
+      }, 500); // Wait for the animation to finish
+    });
+
+    swipeRightButton.addEventListener('click', () => {
+      arrowRight.classList.add('show');
+      setTimeout(() => {
+        window.location.href = 'ok.html';
+      }, 500); // Wait for the animation to finish
+    });
+  </script>
+</body>
+</html>
