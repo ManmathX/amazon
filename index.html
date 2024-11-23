@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amazon Homepage Clone</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+    .button {
+      background-color: #4CAF50; /* Green background */
+      color: white;             /* White text */
+      padding: 10px 20px;       /* Padding inside button */
+      font-size: 16px;          /* Font size */
+      border: none;             /* Remove borders */
+      border-radius: 5px;       /* Rounded corners */
+      cursor: pointer;          /* Pointer cursor on hover */
+      transition: background-color 0.3s, transform 0.2s; /* Smooth hover effect */
+    }
+
+    /* Hover Effect */
+    .button:hover {
+      background-color: #45a049; /* Slightly darker green */
+      transform: scale(1.05);    /* Scale up slightly */
+    }
+
+    .button:active {
+      transform: scale(0.95);    
+    }
+ 
+    .features {
+      display: flex;
+      justify-content: space-around;
+      background: #fff;
+      padding: 10px 0;
+      border-top: 1px solid #ddd;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    .feature {
+      text-align: center;
+    }
+    
+    .feature img {
+      width: 50px;
+      height: 50px;
+      margin-bottom: 5px;
+    }
+    
+    .categories {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      padding: 20px;
+    }
+
+    @keyframes buttonClick {
+      0% {
+          transform: scale(1);
+      }
+      50% {
+          transform: scale(0.9);
+      }
+      100% {
+          transform: scale(1);
+      }
+    }
+
+    .button-animation {
+      animation: buttonClick 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+    <img src="image copy.png" height="80%" width="100%">
+    <section class="features">
+        <div class="feature">
+          <img src="image copy 4.png" alt="Amazon Pay" height="100%" width="100%">
+          <p>Home</p>
+        </div>
+        <div class="feature">
+          <img src="image copy 3.png" alt="Send Money" height="100%" width="100%">
+          <p>You</p>
+        </div>
+        <div class="feature">
+            <a href="reel.html">
+                <button class="button" onclick="animateButton(this)">
+                    <img src="image copy 2.png" alt="Scan QR" height="100%" width="100%">
+                    <p>Reels</p>
+                </button>
+            </a>
+        </div>
+        <div class="feature">
+          <img src="image copy 7.png" alt="Recharge & Bills" height="100%" width="100%">
+          <p>Cart</p>
+        </div>
+        <div class="feature">
+            <img src="image copy 6.png" alt="MORE" height="100%" width="100%">
+            <p>MORE</p>
+        </div>
+        <div class="feature">
+            <img src="image copy 5.png" alt="Recharge & Bills" height="100%" width="100%">
+            <p>Menu</p>
+        </div>
+    </section>
+
+    <script>
+        let touchstartX = 0;
+        let touchendX = 0;
+
+        const gestureZone = document.body; // You can adjust this to a specific element if needed
+
+        gestureZone.addEventListener('touchstart', (event) => {
+            touchstartX = event.changedTouches[0].screenX;
+        });
+
+        gestureZone.addEventListener('touchend', (event) => {
+            touchendX = event.changedTouches[0].screenX;
+            handleGesture();
+        });
+
+        function handleGesture() {
+            if (touchendX < touchstartX) {
+                // Swiped left
+                window.location.href = 'side.left.html';
+            }
+            if (touchendX > touchstartX) {
+                // Swiped right
+                window.location.href = 'ok.html';
+            }
+        }
+    </script>
+</body>
+</html>
+``
