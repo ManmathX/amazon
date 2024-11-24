@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reels Page</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+
+    .reels-container {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      scroll-snap-type: y mandatory; 
+      overflow-y: scroll;
+    }
+
+    .reel {
+      position: relative;
+      height: 100vh;
+      scroll-snap-align: start;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .reel video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .arrow {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 3rem;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    .arrow.show {
+      opacity: 1;
+    }
+
+    .swipe-button {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2rem;
+      background-color: rgba(255, 255, 255, 0.8);
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    #swipeLeft {
+      left: 10px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 40px white;
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
+
+    #swipeRight {
+      right: 10px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 40px white;
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
+    .action-buttons {
+  position: fixed; 
+  bottom: 20px; /* Position them at the bottom */
+  left: 50%; /* Center them horizontally */
+  transform: translateX(-50%); /* Adjust for centering */
+  display: flex; /* Use flexbox for alignment */
+  gap: 10px; /* Add space between buttons */
+  z-index: 10; /* Ensure they are above other elements */
+}
+
+.action-button {
+  background-color: rgba(255, 255, 255, 0.8); /* Light background */
+  border: 2px solid #007bff; /* Blue border */
+  border-radius: 5px; /* Rounded corners */
+  padding: 10px 15px; /* Padding for size */
+  font-size: 1rem; /* Font size */
+  color: #007bff; /* Text color */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s, transform 0.2s; /* Transition effects */
+}
+
+.action-button:hover {
+  background-color: #007bff; /* Change background on hover */
+  color: white; /* Change text color on hover */
+  transform: scale(1.05); /* Slightly enlarge the button */
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.action-buttons {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 15px;
+  z-index: 10;
+}
+
+.action-button {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: #000;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.action-button:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.action-button:active {
+  transform: translateY(0);
+}
+  </style>
+</head>
+<body>
+  <div class="reels-container" id="reelsContainer">
+  </div>
+
+  <div class="arrow" id="arrowLeft">⬅️</div>
+  <div class="arrow" id="arrowRight">➡️</div>
+  
+  <button class="swipe-button" id="swipeLeft">Swipe Left</button>
+  <button class="swipe-button" id="swipeRight">Swipe Right</button>
+  
+  <div class="action-buttons">
+    <button class="action-button" id="likeButton">Like</button>
+    <button class="action-button" id="shareButton">Share</button>
+    <button class="action-button" id="reviewButton">Review</button>
+  </div>
+
+  <script>
+    // Sample video sources - replace with your actual video sources
+    const videoSources = [
+      'ganpati bappa.mp4',
+      'Naruto.mp4',
+      '4167410-hd_720_900_30fps copy.mp4',
+      '3735230-hd_1920_1080_25fps copy.mp4',
+      '7856112-uhd_3840_2160_25fps copy.mp4',
+      // Add more video sources as needed
+    ];
+
+    let currentIndex = 0;
+    
+    // Create Intersection Observer
+    const observerOptions = {
+      root: null,
+      rootMargin: '100px',
+      threshold: 0.1
+    };
+
+    const intersectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && entry.target.classList.contains('reel')) {
+          // Load more reels when we're near the bottom
+          loadMoreReels();
+          // Stop observing this reel
+          intersectionObserver.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    function createReel(videoSrc) {
+      const reel = document.createElement('div');
+      reel.className = 'reel';
+      reel.innerHTML = `<video src="${videoSrc}" autoplay muted loop></video>`;
+      return reel;
+    }
+
+    function loadMoreReels(count = 3) {
+      const reelsContainer = document.getElementById('reelsContainer');
+      
+      for (let i = 0; i < count; i++) {
+        // Use modulo to cycle through video sources
+        const videoSrc = videoSources[currentIndex % videoSources.length];
+        const newReel = createReel(videoSrc);
+        reelsContainer.appendChild(newReel);
+        
+        // Observe the last reel for infinite scroll
+        if (i === count - 1) {
+          intersectionObserver.observe(newReel);
+        }
+        
+        currentIndex++;
+      }
+    }
+
+    // Initial load
+    document.addEventListener('DOMContentLoaded', () => {
+      loadMoreReels(5); // Load initial batch of reels
+    });
+
+    // Get all reel elements
+    const arrowLeft = document.getElementById('arrowLeft');
+    const arrowRight = document.getElementById('arrowRight');
+    let touchstartX = 0;
+    let touchendX = 0;
+
+    // Function to shuffle array (Fisher-Yates algorithm)
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    // Convert NodeList to Array and shuffle the order
+    const reels = document.querySelectorAll('.reel');
+    const reelsArray = Array.from(reels);
+    shuffleArray(reelsArray);
+
+    // Reorder the reels in the container
+    const reelsContainer = document.querySelector('.reels-container');
+    reelsArray.forEach((reel, index) => {
+      // Get the description div that follows the reel
+      const description = reel.nextElementSibling;
+      
+      // Remove both elements from their current position
+      reel.remove();
+      if (description) description.remove();
+      
+      // Add them back in the new order
+      reelsContainer.appendChild(reel);
+      if (description) reelsContainer.appendChild(description);
+      
+      // Update the reel ID
+      reel.id = `reel${index}`;
+    });
+
+    // Add event listeners for each reel
+    reelsArray.forEach((reel) => {
+      const video = reel.querySelector('video');
+
+      reel.addEventListener('mouseenter', () => {
+        video.play();
+      });
+
+      reel.addEventListener('mouseleave', () => {
+        video.pause();
+      });
+    });
+
+    // Handle keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      const currentReel = document.elementFromPoint(window.innerWidth / 2, window.innerHeight / 2);
+      if (!currentReel) return;
+      
+      const currentIndex = reelsArray.indexOf(currentReel.closest('.reel'));
+      
+      if (e.key === 'ArrowDown' && currentIndex < reelsArray.length - 1) {
+        reelsArray[currentIndex + 1].scrollIntoView({ behavior: 'smooth' });
+      } else if (e.key === 'ArrowUp' && currentIndex > 0) {
+        reelsArray[currentIndex - 1].scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+
+    // Swipe detection
+    const handleSwipe = () => {
+      if (touchendX < touchstartX) {
+        arrowLeft.classList.add('show');
+        setTimeout(() => {
+          window.location.href = 'slide.left.html';
+        }, 500);
+      }
+      if (touchendX > touchstartX) {
+        arrowRight.classList.add('show');
+        setTimeout(() => {
+          window.location.href = 'ok.html';
+        }, 500);
+      }
+      setTimeout(() => {
+        arrowLeft.classList.remove('show');
+        arrowRight.classList.remove('show');
+      }, 1000);
+    };
+
+    document.addEventListener('touchstart', (event) => {
+      touchstartX = event.changedTouches[0].screenX;
+    });
+
+    document.addEventListener('touchend', (event) => {
+      touchendX = event.changedTouches[0].screenX;
+      handleSwipe();
+    });
+
+    const swipeLeftButton = document.getElementById('swipeLeft');
+    const swipeRightButton = document.getElementById('swipeRight');
+
+    swipeLeftButton.addEventListener('click', () => {
+      arrowLeft.classList.add('show');
+      setTimeout(() => {
+        window.location.href = 'side.left.html';
+      }, 500);
+    });
+
+    swipeRightButton.addEventListener('click', () => {
+      arrowRight.classList.add('show');
+      setTimeout(() => {
+        window.location.href = 'ok.html';
+      }, 500);
+    });
+
+    // Action button handlers
+    document.getElementById('likeButton').addEventListener('click', () => {
+      alert('You liked this reel!');
+    });
+
+    document.getElementById('shareButton').addEventListener('click', () => {
+      alert('Share this reel with your friends!');
+    });
+
+    document.getElementById('reviewButton').addEventListener('click', () => {
+      alert('Leave a review for this reel!');
+    });
+  </script>
+</body>
+</html>
