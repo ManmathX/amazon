@@ -307,6 +307,10 @@ body {
  </style>
 </head>
 <body>
+  <div id="output">
+
+    ajshdkjashd
+   </div>
   <div class="product-detail-container">
     <div class="product-image">
       <img src="pexels-karolina-grabowska-4041391 copy.jpg" alt="Product Image">
@@ -328,13 +332,13 @@ body {
       </div>
     </div>
   </div>
-    <!-- Dashboard Structure -->
+   
     <header>
       <h1>Amazon Reels Analytics Dashboard</h1>
     </header>
     <div class="dashboard">
       <main>
-        <!-- Stats Section -->
+      
         <section class="stats">
           <div class="stat-card">
             <h2>Total Views</h2>
@@ -357,7 +361,7 @@ body {
             <p id="watchTime">2,345</p>
           </div>
         </section>
-        <!-- Chart Section -->
+   
         <section class="chart">
           <canvas id="reelsChart"></canvas>
         </section>
@@ -412,7 +416,60 @@ body {
           },
         },
       });
+
+      function parseQueryToJson(queryString) {
+  // Extract the value of the "data" parameter
+  const params = new URLSearchParams(queryString);
+  const data = params.get("data");
+  if (!data) {
+    console.error("No data parameter found in the query string.");
+    return null;
+  }
+  try {
+    // Decode and parse the JSON string
+    const decodedData = decodeURIComponent(data);
+    const jsonObject = JSON.parse(decodedData);
+    return jsonObject;
+  } catch (error) {
+    console.error("Error parsing JSON:", error);
+    return null;
+  }
+}
+
+
+      function handleQueryString() {
+      // Get the full query string from the URL
+      const queryString = window.location.search;
+
+      // Parse the query string using URLSearchParams
+      const params = new URLSearchParams(queryString);
+      // Extract individual parameters
+   
+      const productName = params.get('product_name'); // e.g., "Alice"
+ 
+
+      const datafetched= parseQueryToJson(queryString)
+      console.log(datafetched)
+
+
+     
+      // Dynamically display the extracted data
+      const outputDiv = document.getElementById('output');
+      if (datafetched.product_name) {
+        outputDiv.innerHTML = `
+          <p><strong>Name:</strong> ${datafetched.product_name || 'Not provided'}</p>
+ 
+        `;
+      } else {
+        outputDiv.innerHTML = '<p>No query string parameters found.</p>';
+      }
+    }
+    // Call the function when the page loads
+    handleQueryString();
+
     </script>
 </body>
 </html>
+
+
 
