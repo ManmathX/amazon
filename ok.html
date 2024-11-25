@@ -3,246 +3,298 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Seller Profile</title>
+  <title>Seller Profile & Analytics Dashboard</title>
   <style>
-    /* Reset and basic styling */
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #f9f9f9;
-  color: #333;
-}
+    /* Global Styles */
+    body {
+      font-family: 'Roboto', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #FF9900;
+      color: #333;
+    }
 
-/* Header */
-.header {
-  background-color: #333;
-  color: #fff;
-  text-align: center;
-  padding: 15px 0;
-}
+    /* Header */
+    header {
+      background: #131921;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
 
-.header h1 {
-  margin: 0;
-}
+    header h1 {
+      font-size: 2rem;
+      margin: 0;
+      font-weight: bold;
+    }
 
-/* Seller Info */
-.seller-profile-container {
-  max-width: 1200px;
-  margin: 20px auto;
-  background: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
+    /* Seller Profile Section */
+    .profile-container {
+      max-width: 1200px;
+      margin: 30px auto;
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
 
-.seller-info {
-  margin-bottom: 20px;
-}
+    .profile-container img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
 
-.seller-image {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  margin-bottom: 15px;
-}
+    .profile-info {
+      text-align: center;
+    }
 
-.seller-info h2 {
-  margin: 0;
-  font-size: 1.8em;
-}
+    .profile-info h2 {
+      font-size: 1.8rem;
+      margin-top: 15px;
+    }
 
-.seller-info p {
-  margin: 5px 0;
-  color: #555;
-}
+    .profile-info p {
+      font-size: 1rem;
+      color: #777;
+    }
 
-/* Products Section */
-.products {
-  max-width: 1200px;
-  margin: 20px auto;
-  padding: 20px;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
+    /* Product Section */
+    .products {
+      display: flex;
+      gap: 20px;
+      justify-content: space-around;
+      margin-top: 30px;
+    }
 
-.products h2 {
-  margin-bottom: 20px;
-}
+    .product-card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 20px;
+      width: 30%;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
 
-.product {
-  display: inline-block;
-  width: 30%;
-  margin: 1%;
-  text-align: center;
-}
+    .product-card img {
+      max-width: 100%;
+      border-radius: 8px;
+    }
 
-.product img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 5px;
-  margin-bottom: 10px;
-}
+    .product-card h3 {
+      margin: 10px 0;
+      font-size: 1.2rem;
+    }
 
-.product h3 {
-  margin: 10px 0 5px;
-}
+    /* Reviews Section */
+    .reviews {
+      margin-top: 40px;
+      padding: 20px;
+      background-color: #f4f4f4;
+      border-radius: 12px;
+    }
 
-.product p {
-  margin: 5px 0;
-  color: #e74c3c;
-}
+    .review {
+      padding: 15px;
+      border-bottom: 1px solid #ddd;
+    }
 
-/* Reviews Section */
-.seller-reviews {
-  max-width: 1200px;
-  margin: 20px auto;
-  padding: 20px;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
+    .review:last-child {
+      border-bottom: none;
+    }
 
-.seller-reviews h2 {
-  margin-bottom: 20px;
-}
+    .review h4 {
+      font-size: 1.1rem;
+      margin: 0;
+      font-weight: bold;
+    }
 
-.review {
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #ddd;
-}
+    .review p {
+      font-size: 0.9rem;
+      color: #555;
+    }
 
-.review h3 {
-  margin: 0;
-  font-size: 1.2em;
-}
+    /* Contact Form */
+    .contact-form {
+      margin-top: 40px;
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
 
-/* Contact Form */
-.contact-seller {
-  max-width: 1200px;
-  margin: 20px auto;
-  padding: 20px;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
 
-.contact-seller h2 {
-  margin-bottom: 20px;
-}
+    .contact-form button {
+      background-color: #3498db;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
 
-.contact-form label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-}
+    .contact-form button:hover {
+      background-color: #2980b9;
+    }
 
-.contact-form input,
-.contact-form textarea {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-}
+    /* Analytics Dashboard */
+    .dashboard {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
 
-.contact-form button {
-  padding: 10px 20px;
-  font-size: 1em;
-  background-color: #3498db;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
 
-.contact-form button:hover {
-  background-color: #2980b9;
-}
+    .stat-card {
+      background: linear-gradient(145deg, #fefefe, #f4f4f4);
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
 
-/* Footer */
-.footer {
-  background-color: #333;
-  color: #fff;
-  text-align: center;
-  padding: 15px 0;
-  margin-top: 20px;
-}
+    .stat-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    }
 
+    .stat-card h2 {
+      font-size: 1.4rem;
+      margin-bottom: 10px;
+      color: #232f3e;
+    }
+
+    .stat-card p {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #FF9900;
+      margin: 0;
+    }
+
+    /* Footer */
+    footer {
+      background: #131921;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: 20px;
+      font-size: 0.9rem;
+      box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    footer p {
+      margin: 0;
+    }
+
+    footer a {
+      color: #FF9900;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
-  <header class="header">
+  <!-- Header -->
+  <header>
     <h1>Seller Profile</h1>
   </header>
 
-  <!-- Seller Info Section -->
-  <div class="seller-profile-container">
-    <div class="seller-info">
-      <img src="pexels-anastasiya-gepp-654466-1462636.jpg" alt="Seller Image" class="seller-image">
-      <h2>Ok byee</h2>
+  <!-- Seller Profile Section -->
+  <div class="profile-container">
+    <div class="profile-info">
+      <img src="dp.png" alt="Seller Image">
+      <h2>John Doe</h2>
       <p>Location: New York, USA</p>
-      <p>Rating: ⭐⭐⭐⭐ (4.5)</p>
       <p>Joined: January 2022</p>
+      <p>Rating: 4.5/5</p>
+    </div>
+
+    <!-- Products Section -->
+    <div class="products">
+      <div class="product-card">
+        <img src="pexels-karolina-grabowska-4041391 copy.jpg" alt="Product Image">
+        <h3>Product 1</h3>
+        <p>$199.99</p>
+      </div>
+      <div class="product-card">
+        <img src="pexels-kpaukshtite-3270222 copy.jpg" alt="Product Image">
+        <h3>Product 2</h3>
+        <p>$299.99</p>
+      </div>
+      <div class="product-card">
+        <img src="pexels-binoid-cbd-1990665-3612182 copy.jpg" alt="Product Image">
+        <h3>Product 3</h3>
+        <p>$399.99</p>
+      </div>
+    </div>
+
+    <!-- Reviews Section -->
+    <div class="reviews">
+      <div class="review">
+        <h4>Jane Doe</h4>
+        <p>⭐⭐⭐⭐⭐</p>
+        <p>Great product, really satisfied with the quality!</p>
+      </div>
+      <div class="review">
+        <h4>Mike Ross</h4>
+        <p>⭐⭐⭐⭐</p>
+        <p>Good value for money. Could use some improvement in packaging.</p>
+      </div>
+    </div>
+
+    <!-- Contact Form -->
+    <div class="contact-form">
+      <h3>Contact Seller</h3>
+      <form>
+        <input type="text" name="name" placeholder="Your Name" required>
+        <input type="email" name="email" placeholder="Your Email" required>
+        <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
     </div>
   </div>
 
-  <!-- Products Listed Section -->
-  <section class="products">
-    <h2>Products by John</h2>
-    <div class="product">
-      <img src="pexels-karolina-grabowska-4041391 copy.jpg" alt="Product 1">
-      <h3>Product 1</h3>
-      <p>Price: $49.99</p>
-    </div>
-    <div class="product">
-      <img src="pexels-kpaukshtite-3270222 copy.jpg" alt="Product 2">
-      <h3>Product 2</h3>
-      <p>Price: $79.99</p>
-    </div>
-    <div class="product">
-      <img src="pexels-karolina-grabowska-4041391 copy.jpg" alt="Product 3">
-      <h3>Product 3</h3>
-      <p>Price: $59.99</p>
-    </div>
-  </section>
-
-  <!-- Reviews Section -->
-  <section class="seller-reviews">
-    <h2>Customer Reviews</h2>
-    <div class="review">
-      <h3>Jane Smith</h3>
-      <p>⭐⭐⭐⭐⭐</p>
-      <p>Great seller! Very responsive and quick delivery.</p>
-    </div>
-    <div class="review">
-      <h3>Mike Brown</h3>
-      <p>⭐⭐⭐⭐</p>
-      <p>Products were as described. Will buy again!</p>
-    </div>
-  </section>
-
-  <!-- Contact Form -->
-  <section class="contact-seller">
-    <h2>Contact Seller</h2>
-    <form action="#" method="POST" class="contact-form">
-      <label for="name">Your Name</label>
-      <input type="text" id="name" name="name" required>
-
-      <label for="email">Your Email</label>
-      <input type="email" id="email" name="email" required>
-
-      <label for="message">Message</label>
-      <textarea id="message" name="message" rows="4" required></textarea>
-
-      <button type="submit" class="btn">Send Message</button>
-    </form>
-  </section>
-
-  <footer class="footer">
-    <p>© 2024 Seller's Marketplace. All rights reserved.</p>
-  </footer>
-</body>
-</html>
+  <!-- Analytics Dashboard Section -->
+  <div class="dashboard">
+    <main>
+      <!-- Stats Section -->
+      <section class="stats">
+        <div class="stat-card">
+          <h2>Total Views</h2>
+          <p id="views">1.2M</p>
+        </div>
+        <div class="stat-card">
+          <h2>Likes</h2>
+          <p id="likes">150K</p>
+        </div>
+        <div class="stat-card
+        <div class="stat-card">
+          <h2>Total Shares</h2>
+          <p id="likes">150K</p>
+        </div>
+        <div class="stat-card
