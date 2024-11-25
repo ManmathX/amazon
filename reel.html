@@ -142,6 +142,10 @@
 .action-button:active {
   transform: translateY(0);
 }
+
+.reel{
+  height:10px;
+}
   </style>
 </head>
 <body>
@@ -155,9 +159,9 @@
   <button class="swipe-button" id="swipeRight">Swipe Right</button>
   
   <div class="action-buttons">
-    <button class="action-button" id="likeButton"><img width="24" height="24" src="https://img.icons8.com/material-sharp/24/facebook-like--v1.png" alt="facebook-like--v1"/></button>
-    <button class="action-button" id="shareButton"><img width="24" height="24" src="https://img.icons8.com/android/24/share.png" alt="share"/></button>
-    <button class="action-button" id="reviewButton"><img src="icons8-review-50 copy.png"></button>
+    <button class="action-button" id="likeButton">Like</button>
+    <button class="action-button" id="shareButton">Share</button>
+    <button class="action-button" id="reviewButton">Review</button>
   </div>
 
   <script>
@@ -167,8 +171,8 @@
       'Naruto.mp4',
       '4167410-hd_720_900_30fps copy.mp4',
       '3735230-hd_1920_1080_25fps copy.mp4',
-      '7856112-uhd_3840_2160_25fps copy.mp4',
-      // Add more video sources as needed
+      '8540540-hd_1080_1920_30fps.mp4',
+      '2016738-hd_1920_1080_24fps.mp4',
     ];
 
     let currentIndex = 0;
@@ -193,8 +197,10 @@
 
     function createReel(videoSrc) {
       const reel = document.createElement('div');
+      
       reel.className = 'reel';
-      reel.innerHTML = `<video src="${videoSrc}" autoplay muted loop></video>`;
+      reel.innerHTML = `<video src="${videoSrc}" autoplay muted loop style="height:100vh"></video>`;
+      reel.setAttribute("style","height:100vh;")
       return reel;
     }
 
@@ -290,7 +296,7 @@
       if (touchendX < touchstartX) {
         arrowLeft.classList.add('show');
         setTimeout(() => {
-          window.location.href = 'slide.left.html';
+          window.location.href = 'slide.left.html/asdf';
         }, 500);
       }
       if (touchendX > touchstartX) {
@@ -346,3 +352,4 @@
   </script>
 </body>
 </html>
+
