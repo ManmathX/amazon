@@ -6,7 +6,7 @@
   <title>Amazon Homepage Clone</title>
   <link rel="stylesheet" href="styles.css">
   <style>
-    /* General Reset */
+
     * {
       margin: 0;
       padding: 0;
@@ -14,20 +14,20 @@
       font-family: Arial, sans-serif;
     }
     .button {
-      background-color: #4CAF50; /* Green background */
-      color: white;             /* White text */
-      padding: 10px 20px;       /* Padding inside button */
-      font-size: 16px;          /* Font size */
-      border: none;             /* Remove borders */
-      border-radius: 5px;       /* Rounded corners */
-      cursor: pointer;          /* Pointer cursor on hover */
-      transition: background-color 0.3s, transform 0.2s; /* Smooth hover effect */
+      background-color: #4CAF50; 
+      color: white;
+      padding: 10px 20px;      
+      font-size: 16px;        
+      border: none;           
+      border-radius: 5px;       
+      cursor: pointer;          
+      transition: background-color 0.3s, transform 0.2s; 
     }
 
-    /* Hover Effect */
+  
     .button:hover {
-      background-color: #45a049; /* Slightly darker green */
-      transform: scale(1.05);    /* Scale up slightly */
+      background-color: #45a049; 
+      transform: scale(1.05);   
     }
 
     .button:active {
@@ -114,7 +114,7 @@
         let touchstartX = 0;
         let touchendX = 0;
 
-        const gestureZone = document.body; // You can adjust this to a specific element if needed
+        const gestureZone = document.body; 
 
         gestureZone.addEventListener('touchstart', (event) => {
             touchstartX = event.changedTouches[0].screenX;
@@ -127,11 +127,11 @@
 
         function handleGesture() {
             if (touchendX < touchstartX) {
-                // Swiped left
+              
                 window.location.href = 'side.left.html';
             }
             if (touchendX > touchstartX) {
-                // Swiped right
+           
                 window.location.href = 'ok.html';
             }
         }
